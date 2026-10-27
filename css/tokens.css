@@ -1,0 +1,56 @@
+/*
+  Design tokens for The Boot, taken from the Bricks site it replaces.
+  Single source of truth for colour, type and spacing values: component and
+  page stylesheets reference these variables rather than hard-coding values.
+
+  Breakpoints (CSS custom properties can't be used inside media query
+  conditions, so the literal values are repeated where needed):
+    --bp-tablet: 991px
+    --bp-mobile: 767px
+    --bp-small:  478px
+*/
+
+:root {
+  /* ---------- Colour ---------- */
+  --color-orange: #FF7228;
+  --color-page: #72777A;      /* page background */
+  --color-header: #A5B5BD;    /* header bar */
+  --color-dark: #222527;      /* dark boxes, footer, text on orange */
+  --color-slate: #444A4E;     /* menu links */
+  --color-rule: #AAAEB1;      /* footer top border, dividers */
+  --color-white: #FFFFFF;
+  --color-slider-bg: #E6E7E8; /* behind slider images while they load */
+  --color-overlay: rgba(0, 0, 0, 0.25);
+
+  /* ---------- Typography ---------- */
+  --font-display: 'Fredericka the Great', Georgia, serif;
+  --font-body: 'Open Sans', Arial, sans-serif;
+
+  --text-xs: 0.8125rem;   /* 13px: small print, copyright */
+  --text-sm: 1rem;        /* 16px: menu */
+  --text-base: 1.0625rem; /* 17px: body */
+  --text-lg: 1.125rem;    /* 18px: boxes */
+  --text-xl: 1.5625rem;   /* 25px: box subheadings */
+  --text-2xl: 2.125rem;   /* 34px: section headings */
+  --text-3xl: 3.75rem;    /* 60px: page headings */
+
+  --leading-body: 1.4;
+
+  /* ---------- Spacing ---------- */
+  --space-1: 0.3125rem;   /* 5px */
+  --space-2: 0.625rem;    /* 10px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-4: 1.25rem;     /* 20px */
+  --space-5: 1.875rem;    /* 30px */
+  --space-6: 2.5rem;      /* 40px */
+  --space-7: 3.125rem;    /* 50px */
+  --space-8: 3.75rem;     /* 60px */
+  --space-9: 5.3125rem;   /* 85px */
+
+  --container: 68.75rem;  /* 1100px */
+  --container-narrow: 54.6875rem; /* 875px */
+  --gutter: 1.25rem;      /* side padding on small screens */
+
+  /* ---------- Motion ---------- */
+  --transition: 0.2s ease-in;
+}

@@ -1,0 +1,492 @@
+/* Page layouts: homepage sections, menus, drinks, walks, gallery, news, legal */
+
+/* ---------- Homepage ---------- */
+
+.hero-slider {
+  height: 90vh;
+  min-height: 320px;
+  max-height: 900px;
+}
+
+@media (max-width: 767px) {
+  .hero-slider {
+    height: 50vh;
+  }
+}
+
+.intro-box {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.intro-box__text {
+  flex: 1 1 67%;
+}
+
+.intro-box__text h2 {
+  margin-bottom: var(--space-4);
+}
+
+.intro-box__text .prose {
+  font-size: var(--text-lg);
+}
+
+.intro-box__badge {
+  flex: 0 0 33%;
+  display: flex;
+  justify-content: center;
+}
+
+.intro-box__badge img {
+  width: 270px;
+  margin-top: -49px;
+  transform: rotate(7deg);
+}
+
+@media (max-width: 991px) {
+  .intro-box__badge img {
+    width: 235px;
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .intro-box {
+    flex-direction: column;
+  }
+
+  .intro-box__badge img {
+    margin: 20px 0 0;
+    transform: rotate(4deg);
+  }
+}
+
+/* Image and framed text side by side; the food row is the other way round. */
+.feature {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-9);
+}
+
+.feature > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Text first on desktop, but the photos go first on phones. */
+.feature--reverse {
+  align-items: flex-start;
+}
+
+.feature__image img {
+  width: 100%;
+  margin-bottom: var(--space-5);
+}
+
+.food-slider {
+  height: 350px;
+  margin-bottom: var(--space-5);
+}
+
+@media (max-width: 767px) {
+  .feature,
+  .feature--reverse {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-5);
+  }
+
+  .feature--reverse {
+    flex-direction: column-reverse;
+  }
+}
+
+.photo-banner {
+  height: 650px;
+  margin-top: var(--space-7);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+@media (max-width: 991px) {
+  .photo-banner {
+    height: 550px;
+  }
+}
+
+@media (max-width: 767px) {
+  .photo-banner {
+    height: 450px;
+    /* Fixed backgrounds jump about on phones. */
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 478px) {
+  .photo-banner {
+    height: 350px;
+  }
+}
+
+.contact {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.contact > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.contact h2 {
+  margin-bottom: var(--space-4);
+}
+
+.contact__address a {
+  text-decoration: underline;
+}
+
+.contact__address a:hover {
+  color: var(--color-orange);
+}
+
+/* The form comes first on phones, as on the Bricks site. */
+@media (max-width: 767px) {
+  .contact {
+    flex-direction: column-reverse;
+  }
+}
+
+/* ---------- Our Food: menu tiles ---------- */
+
+.food-note {
+  margin-bottom: var(--space-4);
+  font-style: italic;
+}
+
+.food-specials {
+  margin-top: var(--space-5);
+}
+
+.menu-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-5);
+  margin-top: var(--space-7);
+}
+
+.menu-tile {
+  display: flex;
+  justify-content: center;
+  width: 200px;
+  height: 280px;
+  padding: 3px;
+  border: 2px solid var(--color-white);
+  color: var(--color-white);
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.menu-tile__inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding: 90px var(--space-4) 0;
+  border: 3px solid var(--color-white);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.4;
+  text-align: center;
+}
+
+a.menu-tile:hover {
+  background: var(--color-orange);
+}
+
+/* A menu that's waiting for its PDF: shown in the CMS preview only. */
+.menu-tile--no-pdf {
+  opacity: 0.5;
+}
+
+.menu-tile__note {
+  position: absolute;
+  font-family: var(--font-body);
+}
+
+/* ---------- Drinks ---------- */
+
+.drinks {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.drinks > * {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: var(--space-5);
+}
+
+.drinks h2 {
+  margin-bottom: var(--space-4);
+}
+
+.wine-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.wine-list img {
+  width: 224px;
+}
+
+@media (max-width: 767px) {
+  .drinks {
+    flex-direction: column;
+  }
+
+  .drinks > * {
+    padding: 0;
+  }
+}
+
+/* ---------- Walks & History ---------- */
+
+.walks {
+  display: flex;
+  gap: var(--space-7);
+}
+
+.walks__text {
+  flex: 1 1 60%;
+}
+
+.walks__text h2 {
+  margin-bottom: var(--space-4);
+}
+
+.walks__images {
+  display: flex;
+  flex: 1 1 40%;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-7);
+}
+
+.walks__images img {
+  width: 100%;
+}
+
+.walks__more {
+  margin-top: var(--space-7);
+}
+
+@media (max-width: 767px) {
+  .walks {
+    flex-direction: column;
+  }
+
+  .walks__images {
+    margin-top: 0;
+  }
+}
+
+/* ---------- Gallery (js/modules/gallery.js) ---------- */
+
+.gallery-intro {
+  text-align: center;
+}
+
+.gallery {
+  columns: 3 260px;
+  column-gap: var(--space-2);
+}
+
+.gallery__item {
+  display: block;
+  margin-bottom: var(--space-2);
+  break-inside: avoid;
+}
+
+.gallery__item img {
+  width: 100%;
+  /* Holds a landscape-shaped space until each photo loads (then its own
+     shape), so photos further down are in reach of lazy loading. */
+  aspect-ratio: auto 3 / 2;
+  transition: opacity var(--transition);
+}
+
+.gallery__item:hover img {
+  opacity: 0.85;
+}
+
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.lightbox__img {
+  position: absolute;
+  inset: 0;
+  max-width: calc(100% - 140px);
+  max-height: calc(100% - 80px);
+  margin: auto;
+  object-fit: contain;
+}
+
+.lightbox__btn {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.lightbox__btn svg {
+  width: 32px;
+  height: 32px;
+}
+
+.lightbox__btn--close {
+  top: var(--space-2);
+  right: var(--space-2);
+}
+
+.lightbox__btn--prev,
+.lightbox__btn--next {
+  top: 50%;
+  margin-top: -24px;
+}
+
+.lightbox__btn--prev {
+  left: var(--space-2);
+}
+
+.lightbox__btn--next {
+  right: var(--space-2);
+}
+
+@media (max-width: 767px) {
+  .lightbox__img {
+    max-width: 100%;
+  }
+
+  .lightbox__btn--prev,
+  .lightbox__btn--next {
+    top: auto;
+    bottom: var(--space-4);
+  }
+}
+
+/* ---------- News ---------- */
+
+.article-list > * + * {
+  margin-top: var(--space-7);
+  padding-top: var(--space-7);
+  border-top: 1px solid var(--color-rule);
+}
+
+.article__icon {
+  width: 50px;
+  margin: 0 auto var(--space-4);
+}
+
+.article__title {
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+.article__title a {
+  text-decoration: none;
+}
+
+.article__title a:hover {
+  color: var(--color-orange);
+}
+
+.article__body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.article__body > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.article__image img {
+  margin-inline: auto;
+}
+
+@media (max-width: 767px) {
+  .article__body {
+    flex-direction: column;
+  }
+}
+
+.signup {
+  margin-top: var(--space-7);
+}
+
+.signup h2 {
+  margin-bottom: var(--space-2);
+}
+
+.signup p {
+  margin-bottom: var(--space-4);
+}
+
+.signup .form {
+  margin-top: var(--space-5);
+}
+
+.article-back {
+  display: inline-block;
+  margin-top: var(--space-7);
+  text-decoration: underline;
+}
+
+.article-back:hover {
+  color: var(--color-orange);
+}
+
+/* ---------- Legal and 404 ---------- */
+
+.legal {
+  max-width: 50rem;
+  margin-inline: auto;
+}
+
+.legal h2 {
+  font-size: 1.75rem;
+}
+
+.not-found {
+  text-align: center;
+}
+
+.not-found p {
+  margin-bottom: var(--space-5);
+}

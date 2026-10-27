@@ -1,0 +1,258 @@
+# Sveltia CMS config: the content types editors see and the fields in each
+# form. Field names must match src/schemas.ts. See README.md.
+
+backend:
+  name: github
+  repo: simonclay/boot-source # Set per site: the site's private source repo
+  branch: main
+  base_url: https://sveltia-cms-auth.cms-tools.workers.dev # GitHub login helper (Cloudflare Worker, shared by all sites)
+
+media_folder: public/assets/images/uploads
+public_folder: /assets/images/uploads
+
+# Uploaded photos are converted to WebP and capped at 1920px, and file names
+# are cleaned up (no spaces), so a straight-from-camera or stock image doesn't
+# add megabytes to every page.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1920
+          height: 1920
+
+collections:
+  - name: pages
+    label: Pages
+    icon: description
+    files:
+      - name: home
+        label: Homepage
+        file: src/content/pages/home.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - name: slides
+            label: "Banner photos (they fade from one to the next)"
+            label_singular: photo
+            widget: list
+            summary: "{{alt}}"
+            fields:
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: "Description (for people who can't see the photo)", widget: string, required: false }
+          - { name: heading, label: "Main heading", widget: text, hint: "Press Shift+Return for a new line" }
+          - { name: introTitle, label: "Orange box: heading", widget: text, hint: "Press Shift+Return for a new line" }
+          - { name: introBody, label: "Orange box: text", widget: markdown, buttons: [bold, italic, link], editor_components: [] }
+          - { name: introImage, label: "Orange box: award logo", widget: image, required: false }
+          - { name: introImageAlt, label: "Orange box: award logo description", widget: string, required: false }
+          - { name: eventsTitle, label: "Events box: heading", widget: string, hint: "The events themselves are under Upcoming events" }
+          - { name: eventsEmpty, label: "Events box: text when there are no upcoming events", widget: string }
+          - { name: openingTitle, label: "Opening times box (orange): heading", widget: string, hint: "The times themselves are in Site settings" }
+          - { name: drinksTitle, label: "Drinks: heading", widget: string }
+          - { name: drinksBody, label: "Drinks: text", widget: markdown, buttons: [bold, italic, link], editor_components: [] }
+          - { name: drinksImage, label: "Drinks: photo", widget: image, required: false }
+          - { name: drinksImageAlt, label: "Drinks: photo description", widget: string, required: false }
+          - { name: foodTitle, label: "Food: heading", widget: string }
+          - { name: foodBody, label: "Food: text", widget: markdown, buttons: [bold, italic, link], editor_components: [] }
+          - { name: foodSmallPrint, label: "Food: small print (allergies)", widget: text, required: false }
+          - name: foodSlides
+            label: "Food: photos (they slide from one to the next)"
+            label_singular: photo
+            widget: list
+            summary: "{{alt}}"
+            fields:
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: "Description (for people who can't see the photo)", widget: string, required: false }
+          - { name: bannerImage, label: "Wide photo above Contact us", widget: image, required: false }
+          - { name: contactTitle, label: "Contact: heading", widget: string, hint: "The address, phone and email are in Site settings" }
+          - { name: formTitle, label: "Contact form: heading", widget: string }
+          - { name: formThanks, label: "Contact form: thank-you message", widget: text, hint: "Shown in place of the form once a message is sent" }
+          - { name: closingOpeningTitle, label: "Opening times box (dark, at the bottom): heading", widget: string }
+
+      - name: food
+        label: Our Food (menus)
+        file: src/content/pages/food.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: title, label: Heading, widget: string }
+          - { name: note, label: "Note above the Book a table button", widget: text }
+          - { name: specials, label: "Line below the button", widget: string, required: false }
+          - name: menus
+            label: "Menus"
+            label_singular: menu
+            widget: list
+            summary: "{{title}}"
+            hint: "Each menu is a tile that opens its PDF. Drag to change the order. Untick Show on website to hide a menu (e.g. Christmas out of season) without deleting it."
+            fields:
+              - { name: title, label: "Name on the tile", widget: string, hint: "e.g. Christmas Menu" }
+              - { name: pdf, label: "Menu PDF", widget: file, required: false, media_folder: /public/assets/files, public_folder: /assets/files, hint: "A menu without a PDF isn't shown on the website" }
+              - { name: show, label: "Show on website", widget: boolean, default: true }
+
+      - name: drinks
+        label: Drinks
+        file: src/content/pages/drinks.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: title, label: Heading, widget: string }
+          - { name: introTitle, label: "Subheading", widget: string }
+          - { name: text, label: Text, widget: markdown, buttons: [bold, italic, link], editor_components: [] }
+          - { name: wineListImage, label: "Wine list picture", widget: image, required: false }
+          - { name: wineListImageAlt, label: "Wine list picture description", widget: string, required: false }
+          - { name: wineListPdf, label: "Wine list PDF", widget: file, required: false, media_folder: /public/assets/files, public_folder: /assets/files }
+          - { name: wineListLabel, label: "Wine list button text", widget: string }
+
+      - name: walks
+        label: Walks & History
+        file: src/content/pages/walks.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: title, label: Heading, widget: string }
+          - { name: introTitle, label: "Subheading", widget: string }
+          - { name: history, label: "Text beside the photos", widget: markdown }
+          - name: images
+            label: "Photos"
+            label_singular: photo
+            widget: list
+            summary: "{{alt}}"
+            fields:
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: "Description (for people who can't see the photo)", widget: string, required: false }
+          - { name: more, label: "Text below the photos", widget: markdown, required: false }
+
+      - name: gallery
+        label: Gallery
+        file: src/content/pages/gallery.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: title, label: Heading, widget: string }
+          - { name: intro, label: "Intro text", widget: text }
+          - name: images
+            label: "Photos"
+            label_singular: photo
+            widget: list
+            summary: "{{alt}}"
+            hint: "Drag to change the order"
+            fields:
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: "Description (for people who can't see the photo)", widget: string, required: false }
+
+      - name: newspage
+        label: News page
+        file: src/content/pages/news.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: title, label: Heading, widget: string, hint: "The articles themselves are under News" }
+          - { name: signupTitle, label: "Sign-up box: heading", widget: string }
+          - { name: signupBody, label: "Sign-up box: text", widget: text }
+          - { name: signupThanks, label: "Sign-up box: thank-you message", widget: text, hint: "Shown in place of the form once someone signs up" }
+
+  - name: events
+    label: Upcoming events
+    icon: event
+    files:
+      - name: events
+        label: Upcoming events
+        file: src/content/events/events.json
+        fields:
+          - name: events
+            label: "Events"
+            label_singular: event
+            widget: list
+            required: false
+            summary: "{{date | date('D MMM YYYY')}} · {{description | truncate(40)}}"
+            hint: "Shown on the homepage, soonest first. An event disappears from the website by itself once its date has passed. With no events, the homepage says to check back soon."
+            fields:
+              - { name: date, label: Date, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+              - { name: endDate, label: "Last day (for an event over several days)", widget: datetime, time_format: false, format: "YYYY-MM-DD", required: false }
+              - { name: description, label: Description, widget: text, hint: "Press Return for a new line" }
+              - { name: image, label: "Picture (optional)", widget: image, required: false }
+              - { name: imageAlt, label: "Picture description", widget: string, required: false }
+              - { name: linkUrl, label: "Link (optional)", widget: string, required: false, hint: "e.g. a ticket page, or /our-food/" }
+              - { name: linkLabel, label: "Link text", widget: string, required: false, hint: "e.g. Book tickets. Leave empty for \"Find out more\"" }
+
+  - name: news
+    label: News
+    label_singular: article
+    icon: newspaper
+    folder: src/content/news
+    create: true
+    format: frontmatter
+    extension: md
+    slug: "{{slug}}"
+    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
+    thumbnail: image
+    summary: "{{title}} · {{date | date('MMM YYYY')}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, time_format: false, format: "YYYY-MM-DD", hint: "Articles are listed newest first" }
+      - { name: image, label: "Picture (beside the text)", widget: image, required: false }
+      - { name: imageAlt, label: "Picture description", widget: string, required: false }
+      - { name: body, label: "Article text", widget: markdown }
+      - { name: metaDescription, label: "Meta description (optional, for search engines)", widget: text, required: false }
+
+  - name: legal
+    label: Legal
+    icon: gavel
+    label_singular: Legal page
+    folder: src/content/legal
+    create: true
+    format: frontmatter
+    extension: md
+    # Editable: Edit Slug in the three-dot menu renames the page's web address.
+    # Once a site is live, changing it breaks links to the old address.
+    slug:
+      template: "{{slug}}"
+      editable: true
+    reorder: true
+    fields:
+      - { name: title, label: Title, widget: string, hint: "Also used as the footer link text" }
+      - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+      - { name: body, label: "Policy text", widget: markdown }
+
+  - name: settings
+    label: Site settings
+    icon: settings
+    files:
+      - name: site
+        label: Site settings
+        file: src/content/settings/site.json
+        fields:
+          - { name: bookingUrl, label: "Book a table: link", widget: string, hint: "Used by every Book a table button on the website" }
+          - { name: bookingLabel, label: "Book a table: button text", widget: string }
+          - { name: phone, label: "Phone number", widget: string }
+          - { name: email, label: "Email address", widget: string }
+          - name: addressLines
+            label: "Address (one line each)"
+            widget: list
+            field: { name: line, label: Line, widget: string }
+          - { name: facebookUrl, label: "Facebook page link", widget: string, required: false }
+          - { name: tripadvisorUrl, label: "Tripadvisor page link", widget: string, required: false }
+          - name: openingTimes
+            label: "Opening times"
+            label_singular: row
+            widget: list
+            summary: "{{days}}"
+            hint: "Shown in both opening times boxes on the homepage"
+            fields:
+              - { name: days, label: "Day(s)", widget: string, hint: "e.g. Monday & Tuesday" }
+              - { name: hours, label: "Hours", widget: text, hint: "Press Return for each new line, e.g. food times" }
+          - { name: awardImage, label: "Footer award logo", widget: image, required: false, hint: "Bottom of every page. A white logo shows best on the dark footer." }
+          - { name: awardAlt, label: "Footer award logo description", widget: string, required: false }
+          - { name: awardUrl, label: "Footer award logo link (optional)", widget: string, required: false }
+          - { name: formKey, label: "Forms: Web3Forms access key", widget: string, required: false, hint: "From web3forms.com. Messages from the contact and sign-up forms are emailed to the address the key was created for; to change where they go, create a new key for the new address and paste it here. Leave empty and the forms show greyed out, asking people to email instead." }
+          - name: footerScripts
+            label: "Footer scripts"
+            label_singular: "script"
+            widget: list
+            required: false
+            summary: "{{name}}"
+            hint: "Extra code that runs on every page of the website, such as a feedback widget, live chat or a marketing tracking code. Only paste code from services you trust. For Google Analytics, use the Google Analytics ID field below instead."
+            fields:
+              - { name: name, label: "Name (for your reference)", widget: string }
+              - { name: code, label: "Code", widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
+              - { name: enabled, label: "Switched on", widget: boolean, default: false }
+              - { name: needsConsent, label: "Only load after cookie consent", widget: boolean, default: true, hint: "Leave on for anything that tracks visitors (analytics, ads, heatmaps, chat widgets that set cookies). Turn off only for scripts that set no cookies." }
+          - { name: analyticsId, label: "Google Analytics ID", widget: string, required: false, hint: "e.g. G-ABC123XYZ. Leave empty to turn off analytics and the cookie banner. Analytics only records visits on the live domain, and only after a visitor accepts cookies." }
+          - { name: cookieBannerText, label: "Cookie banner text", widget: text, required: false, hint: "Shown with Accept / Reject buttons and a link to the cookie policy." }
