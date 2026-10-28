@@ -26,7 +26,44 @@ const CLICK_TO_EDIT_CSS = `
   .cms-hover { outline: 2px solid #1098AD !important; outline-offset: 4px; border-radius: 4px; cursor: pointer; }
   .cms-hidden-note { margin: 0; padding: 18px 20px; border: 2px dashed #C3CCDD; border-radius: 12px; color: #4A5670; text-align: center; font-size: 15px; }
   .cms-flash { outline: 3px solid #3B5BDB !important; outline-offset: 4px; border-radius: 4px; transition: outline-color 0.6s ease; }
+  .cms-image-pending { outline: 2px dashed #C3CCDD !important; outline-offset: -2px; min-width: 120px; min-height: 80px; background: rgba(195, 204, 221, 0.25); }
 `;
+
+// A photo uploaded in the CMS only reaches the preview server once the site
+// has rebuilt, about a minute after saving. Until then the preview asks for
+// a file that isn't there yet, so the photo would vanish on Save. Instead,
+// it's outlined as "on its way" and tried again every few seconds.
+const IMAGE_RETRY_MS = 5000;
+const IMAGE_RETRY_LIMIT = 36; // 3 minutes
+
+function retryMissingImages(doc) {
+  const retry = (img) => {
+    const path = img.getAttribute('src') || '';
+    // Only the site's own uploads; a broken outside link won't fix itself.
+    if (!/^\/?assets\//.test(path.split('?')[0])) return;
+    const tries = Number(img.dataset.cmsRetries || 0);
+    if (tries >= IMAGE_RETRY_LIMIT) return;
+    img.dataset.cmsRetries = String(tries + 1);
+    img.classList.add('cms-image-pending');
+    img.title = 'This photo appears here once the website has updated (about a minute after saving).';
+    setTimeout(() => {
+      img.addEventListener('load', () => {
+        img.classList.remove('cms-image-pending');
+        img.removeAttribute('title');
+      }, { once: true });
+      img.setAttribute('src', `${path.split('?')[0]}?retry=${tries + 1}`);
+    }, IMAGE_RETRY_MS);
+  };
+
+  // Photos that fail from now on (errors don't bubble, so listen while capturing)...
+  doc.addEventListener('error', (event) => {
+    if (event.target instanceof doc.defaultView.HTMLImageElement) retry(event.target);
+  }, true);
+  // ...and any that already failed before the page finished loading.
+  [...doc.images].forEach((img) => {
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) retry(img);
+  });
+}
 
 /**
  * Ask Sveltia's editor to open, scroll to and focus a field. This is the
@@ -241,6 +278,7 @@ function livePreview(route) {
       // 'instant' overrides the site's scroll-behavior: smooth, which would
       // otherwise animate all the way down from the top of the page.
       frameWindow.scrollTo({ top: this.scrollY, behavior: 'instant' });
+      retryMissingImages(frameWindow.document);
       this.enableClickToEdit(frameWindow.document);
       this.loaded = true;
     },

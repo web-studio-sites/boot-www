@@ -2,6 +2,7 @@ import { initConsent } from './modules/consent.js';
 import { initHeader } from './modules/header.js';
 import { initSliders } from './modules/slider.js';
 import { initGallery } from './modules/gallery.js';
+import { initZoom } from './modules/zoom.js';
 import { initForms } from './modules/forms.js';
 import { initEvents } from './modules/events.js';
 
@@ -11,5 +12,6 @@ initConsent();
 initHeader();
 initSliders();
 initGallery();
+initZoom();
 initForms();
 initEvents();
