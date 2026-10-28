@@ -192,10 +192,10 @@
 
 .menu-tile__inner {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 90px var(--space-4) 0;
+  padding: var(--space-4);
   border: 3px solid var(--color-white);
   font-family: var(--font-display);
   font-size: var(--text-2xl);
