@@ -169,6 +169,7 @@ collections:
               - { name: description, label: Description, widget: text, hint: "Press Return for a new line" }
               - { name: image, label: "Picture (optional)", widget: image, required: false }
               - { name: imageAlt, label: "Picture description", widget: string, required: false }
+              - { name: imageZoom, label: "Click to enlarge the picture", widget: boolean, default: false, hint: "Tick for a poster or anything with small print: visitors can click the picture to see it full size" }
               - { name: linkUrl, label: "Link (optional)", widget: string, required: false, hint: "e.g. a ticket page, or /our-food/" }
               - { name: linkLabel, label: "Link text", widget: string, required: false, hint: "e.g. Book tickets. Leave empty for \"Find out more\"" }
 
